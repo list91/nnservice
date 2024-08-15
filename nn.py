@@ -16,7 +16,6 @@ def detect_people(image_path):
     # Загрузка изображения с диска
     image = cv2.imread(image_path)
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    # image_resized = cv2.resize(image_rgb, (300, 300))
     image_resized = cv2.resize(image_rgb, (300, 300))
 
     # Преобразование в тензор и добавление размерности пакета
@@ -35,6 +34,8 @@ def detect_people(image_path):
 
     # Отрисовка результатов на изображении
     image_with_boxes = image_resized.copy()
+    # print(len(boxes))
+    q = 0
     for i in range(len(class_ids)):
         class_id = int(class_ids[i])
         score = scores[i]
@@ -45,14 +46,7 @@ def detect_people(image_path):
                 ymin, xmin, ymax, xmax = box
                 left, right, top, bottom = int(xmin * 300), int(xmax * 300), int(ymin * 300), int(ymax * 300)
                 cv2.rectangle(image_with_boxes, (left, top), (right, bottom), (0, 255, 0), 2)
+                q+=1
+    print(q)
 
     return image_with_boxes
-
-# Пример использования
-# image_path = 'src\\detect_datasets\\1\\5.jpg'  # Замените на реальный путь к вашему изображению
-# image_with_boxes = detect_people(image_path)
-
-# # Отображение результата
-# cv2.imshow('Detected People', image_with_boxes)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
